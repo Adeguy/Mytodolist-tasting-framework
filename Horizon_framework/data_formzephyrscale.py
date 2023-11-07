@@ -40,18 +40,43 @@ class DataFormZephyrScale:
             if "POST" in line:
                 request_dict["method"] = "POST"
                 continue
+            if "GET" in line:
+                request_dict["method"] = "GET"
+                continue
             if "http://" in line:
                 request_dict["endpoint"] = line.split("127.0.0.1:5000")[-1]
                 continue
-            if "content-type:" in line:
-                request_dict["head"] = line
+            if "content-type" in line:
+                request_dict["content-type_pre_head"]=line.split(":")[0]
+                request_dict["content-type_head"] = line.split(":")[1]
                 continue
-            if "加密令牌" in line:
-                request_dict["token"] = line
+            if "Authorization" in line:
+                request_dict["Authorization_pre_head"] = line.split(":")[0]
+                request_dict["Authorization_head"] = line.split(":")[1]
+                continue
+            if "加密令牌：" in line:
+                key, token = line.split("：")
+                request_dict["token"] = token
                 continue
             if "状态码：" in line:
                 key, value = line.split("：")
                 request_dict[key] = value
+                continue
+            if "id:" in line:
+                request_dict["id_pre_head"] = line.split(":")[0]
+                request_dict["id_head"] = line.split(":")[1]
+                continue
+            if "date:" in line:
+                request_dict["date_pre_head"] = line.split(":")[0]
+                request_dict["date_head"] = line.split(":")[1]
+                continue
+            if "priority:" in line:
+                request_dict["priority_pre_head"] = line.split(":")[0]
+                request_dict["priority_head"] = line.split(":")[1]
+                continue
+            if "content:" in line:
+                request_dict["content_pre_head"] = line.split(":")[0]
+                request_dict["content_head"] = line.split(":")[1]
                 continue
         return request_dict
 

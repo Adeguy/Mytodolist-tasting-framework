@@ -13,7 +13,8 @@ class InterfaceTesting:
         params -- 查询参数（字典）
         data -- 请求数据（JSON 字符串或字典）
         """
-        url = f"{self.base_url}/{endpoint}"
+        url = f"{self.base_url}{endpoint}"
+        print(url)
         response = requests.post(url, params=params, headers=header, json=data)
         return response
 
@@ -25,6 +26,6 @@ class InterfaceTesting:
         endpoint -- API endpoint（不包括基本 URL）
         params -- 查询参数（字典）
         """
-        url = f"{self.base_url}/{endpoint}"
+        url = f"{self.base_url}{endpoint}"
         response = requests.get(url, params=params, headers=header)
         return response
